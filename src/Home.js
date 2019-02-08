@@ -1,50 +1,28 @@
+// Imports
 import React, { Component } from "react";
+// Imported Components
+import Shift from "./Shift";
  
+// Homepage for a particular user
+// Will Display shifts the user has posted that have not happened yet
+// Will display shifts the user has agreed to cover for other users
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div className="Home">
         <h2>Home</h2>
-	<div>
-	  Shifts I Posted
-	  <table>
-          <thead>
-            <tr>
-              <th>Time Posted</th>
-              <th>Shift</th>
-              <th>Covered?</th>
-              <th>Covered By</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1:30 PM Feb 4th 2019</td>
-              <td>1:00 PM - 4:00 PM Feb 6th 2019</td>
-              <td>Yes</td>
-              <td>Joe</td>
-            </tr>
-          </tbody>
-        </table>
-	</div>
-	<div>
-	  Shifts I Took
-	  <table>
-          <thead>
-            <tr>
-              <th>Time Posted</th>
-              <th>Shift</th>
-              <th>Posted By</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1:30 PM Feb 4th 2019</td>
-              <td>1:00 PM - 4:00 PM Feb 6th 2019</td>
-              <td>Bob</td>
-            </tr>
-          </tbody>
-        </table>
-	</div>
+	      <div>
+	        <h4>My Available Shifts</h4>
+          {/* FUTURE: Create a loop through all posted shifts
+            filter out those which are posted by logged in user */}
+          <Shift />
+	      </div>
+	      <div>
+	        <h4>My Covered Shifts</h4>
+          {/* FUTURE: Create a loop through all shifts covered 
+            by logged in user */}
+          <Shift />
+	      </div>
       </div>
     );
   }

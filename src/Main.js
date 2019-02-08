@@ -1,20 +1,29 @@
+// Imports
 import React, { Component } from "react";
-import { Route, NavLink, HashRouter } from "react-router-dom";
+import { Route, NavLink, HashRouter } from "react-router-dom"; // Needed for Route
+// Component Imports
+import PageHeader from "./PageHeader";
+import Navigation from "./Navigation";
 import Home from "./Home";
 import Listings from "./Listings";
 import Post from "./Post"; 
 
+
+// Main Component for App
+// Contains the Page Header
+// Contains the Navigation Bar
+// Contains the Current Component details
 class Main extends Component {
   render() {
     return (
 	<HashRouter>
-          <div>
-            <h1>Hesse Center Shift Manager</h1>
-            <ul className="header">
-              <li><NavLink to="/">Home</NavLink></li>
-              <li><NavLink to="/listings">Listings</NavLink></li>
-              <li><NavLink to="/post">Post</NavLink></li>
-            </ul>
+          <div className="Main">
+            {/* Contains the items for page header */}
+            <PageHeader />
+            {/* Contains the Navigation Bar for page links */}
+            <Navigation />
+
+            {/* Contains the Body of the Website, actual page content */}
             <div className="content">
               <Route exact path="/" component={Home}/>
               <Route path="/listings" component={Listings}/>
