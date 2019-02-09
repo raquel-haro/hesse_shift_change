@@ -1,7 +1,7 @@
 // Imports
 import React, { Component } from "react";
 // Component Imports
-import Shift from "./Shift";
+import ShiftTable from "./ShiftTable";
  
 // Displays all listings for current and future dates
 class Listings extends Component {
@@ -9,7 +9,7 @@ class Listings extends Component {
     return (
       <div className="Listings">
         <h2>Shift Listings</h2>
-        <Shift />
+        <ShiftTable />
       </div>
     );
   }
