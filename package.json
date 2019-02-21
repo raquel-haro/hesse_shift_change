@@ -6,7 +6,7 @@
     "basic-react-timepicker": "^1.0.0",
     "react": "^16.7.0",
     "react-datepicker": "^2.1.0",
-    "react-day-picker": "^7.2.4",
+    "react-day-picker": "^7.3.0",
     "react-daypicker": "^3.0.8",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
