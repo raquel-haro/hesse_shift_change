@@ -1,6 +1,5 @@
 // Imports
 import React, { Component } from "react";
-import 'react-daypicker/lib/DayPicker.css';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
