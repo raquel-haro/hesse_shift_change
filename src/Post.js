@@ -7,20 +7,20 @@ class Post extends Component {
     return (
       <div className="Post">
         <h2>Post a Shift</h2>
-	        <form>
+	  <form>
             {/* Start Time of Shift */}
-    	      <label for="startTime">Shift Start Time:</label>
+    	    <label htmlFor="startTime">Shift Start Time:</label>
             <input type="text" id="startTime"/>
-	          <br />
+	    <br />
             {/* End Time of Shift*/}
-	          <label for="endTime">Shift End Time:</label>
+	    <label htmlFor="endTime">Shift End Time:</label>
             <input type="text" id="endTime"/>
             <br />
             {/* Details for shift */}
-            <label for="details">Details:</label>
+            <label htmlFor="details">Details:</label>
             <input type="text" id="details"/>
-	          <input type="submit" />
-	        </form>
+	    <input type="submit" />
+	  </form>
       </div>
     );
   }
