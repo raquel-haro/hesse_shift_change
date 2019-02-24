@@ -1,5 +1,6 @@
 // Imports
 import React, { Component } from "react";
+import { StyleSheet, css } from 'aphrodite'
 // Imported Components
 import ShiftTable from "./ShiftTable";
  
@@ -9,23 +10,38 @@ import ShiftTable from "./ShiftTable";
 class Home extends Component {
   render() {
     return (
-      <div className="Home">
+      <div className={`Home`}>
         <h2>Home</h2>
-	<div>
-	  <h4>My Available Shifts</h4>
+      <div className={`Shifts ${css(styles.flexContainer)}`}>
+	      <div className={`AvailableShifts ${css(styles.shiftListContainer)}`}>
+	        <h4>My Available Shifts</h4>
           {/* FUTURE: Create a loop through all posted shifts
-            filter out those which are posted by logged in user */}
+          filter out those which are posted by logged in user */}
           <ShiftTable />
-	</div>
-	<div>
-	  <h4>My Covered Shifts</h4>
+	      </div>
+	      <div className={`CoveredShifts ${css(styles.shiftListContainer)}`}>
+	        <h4>My Covered Shifts</h4>
           {/* FUTURE: Create a loop through all shifts covered 
             by logged in user */}
           <ShiftTable />
-	</div>
+	      </div>
+      </div>
       </div>
     );
   }
 }
  
+// CSS Specific to This Component
+const styles = StyleSheet.create({
+  flexContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  shiftListContainer: {
+    margin: "1rem",
+    width: '100%',
+  },
+
+})
+
 export default Home;
