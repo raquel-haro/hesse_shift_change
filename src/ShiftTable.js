@@ -1,5 +1,6 @@
 // Imports
 import React, { Component } from "react";
+import { StyleSheet, css } from 'aphrodite'
 
 // Table that displays shifts
 class ShiftTable extends Component {
@@ -26,7 +27,7 @@ class ShiftTable extends Component {
 
   render() {
     return (
-      <div className="ShiftTable">
+      <div className={`ShiftTable ${css(styles.background)}`}>
         <table>
           <thead>
             <tr>
@@ -55,5 +56,21 @@ class ShiftTable extends Component {
   }
 
 }
+
+// CSS Specific to This Component
+const styles = StyleSheet.create({
+  background: {
+    marginTop: '1rem',
+    padding: '1rem 1rem',
+    position: 'relative',
+    zIndex: 1,
+    backgroundColor: 'white',
+    borderRadius: '10px',
+  },
+  flexContainer: {
+    display: 'flex',
+  }
+
+})
  
 export default ShiftTable;
