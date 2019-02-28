@@ -31,8 +31,7 @@ class ShiftTable extends Component {
           <thead>
             <tr>
               <th>Shift Date</th>
-	      <th>Start</th>
-	      <th>End</th>
+	      <th>Time</th>
 	      <th>Posted By</th>
               <th>Covered By</th>
             </tr>
@@ -41,11 +40,9 @@ class ShiftTable extends Component {
           <tbody>
             {
               this.state.data.map(function(shift) {
-                console.log(shift);
                 return <tr key={shift.id}>
 		         <td>{shift.shiftDate}</td>
-			 <td>{shift.startTime}</td>
-			 <td>{shift.endTime}</td>
+			 <td>{shift.shiftTime}</td>
 			 <td>{shift.postedBy}</td>
 			 <td>{shift.coveredBy}</td>
 		       </tr>;
