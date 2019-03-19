@@ -6,8 +6,8 @@ import PageHeader from "./PageHeader";
 import Navigation from "./Navigation";
 import Home from "./Home";
 import Listings from "./Listings";
-import Post from "./Post"; 
-
+import Post from "./Post";
+import Shift from "./Shift"; 
 
 // Main Component for App
 // Contains the Page Header
@@ -27,7 +27,8 @@ class Main extends Component {
             <div className="content">
               <Route exact path="/" component={Home}/>
               <Route path="/listings" component={Listings}/>
-              <Route path="/post" component={Post}/> 
+              <Route path="/post" component={Post}/>
+	      <Route path="/shift/:id" component={Shift}/>
             </div>
           </div>
 	</HashRouter>

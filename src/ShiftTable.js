@@ -1,6 +1,8 @@
 // Imports
 import React, { Component } from "react";
 import { StyleSheet, css } from 'aphrodite'
+import { Route, NavLink, HashRouter } from "react-router-dom"; // Needed for NavLink
+
 
 // Table that displays shifts
 class ShiftTable extends Component {
@@ -46,6 +48,7 @@ class ShiftTable extends Component {
 			 <td>{shift.shiftTime}</td>
 			 <td>{shift.postedBy}</td>
 			 <td>{shift.coveredBy}</td>
+			 <td><NavLink to={`/shift/${shift.id}`}>Claim</NavLink></td>
 		       </tr>;
               })
             }
