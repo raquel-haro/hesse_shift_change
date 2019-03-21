@@ -1,6 +1,8 @@
 // Imports
 import React, { Component } from "react";
 import { StyleSheet, css } from 'aphrodite'
+import { NavLink } from "react-router-dom"; // Needed for NavLink
+
 
 // Table that displays shifts
 class ShiftTable extends Component {
@@ -32,8 +34,7 @@ class ShiftTable extends Component {
           <thead>
             <tr>
               <th>Shift Date</th>
-	      <th>Start</th>
-	      <th>End</th>
+	      <th>Time</th>
 	      <th>Posted By</th>
               <th>Covered By</th>
             </tr>
@@ -42,13 +43,12 @@ class ShiftTable extends Component {
           <tbody>
             {
               this.state.data.map(function(shift) {
-                console.log(shift);
                 return <tr key={shift.id}>
 		         <td>{shift.shiftDate}</td>
-			 <td>{shift.startTime}</td>
-			 <td>{shift.endTime}</td>
+			 <td>{shift.shiftTime}</td>
 			 <td>{shift.postedBy}</td>
 			 <td>{shift.coveredBy}</td>
+			 <td><NavLink to={`/shift/${shift.id}`}>Claim</NavLink></td>
 		       </tr>;
               })
             }

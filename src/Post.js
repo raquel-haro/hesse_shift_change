@@ -1,94 +1,162 @@
 // Imports
 import React, { Component } from "react";
+import { Redirect } from 'react-router';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
 // Displays a form for creating a shift user needs covered
 class Post extends Component {
-	constructor(props) {
+
+  /* All of the form data is stored inside this state */
+  constructor(props) {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.state = {
-      selectedDay: null,
+      shiftDate: '',
+      shiftTime: '',
+      postedBy: '',
+      helpSession: 'No',
+      majorPreference: 'None',
+      yearPreference: 'None',
+      comments: '',
+      redirect: false
     };
   }
+
+  /* When an input is changed, update the state. */
+  onChange = (e) => {
+    /* Because we named the inputs to match their
+       corresponding values in state, it's
+       super easy to update the state */
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   handleDayClick(day, { selected }) {
     this.setState({
-      selectedDay: selected ? undefined : day,
+      shiftDate: selected ? undefined : day,
     });
   }
+
+  submitSuccess = () => {
+    alert('Form submitted!');  
+    this.setState({
+      redirect: true
+    })
+  }
+  
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/' />
+    }
+  }
+
+  /* Submit the form */
+  onSubmit = (e) => {
+    e.preventDefault();
+    fetch('/api/shift', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        shiftDate: this.state.shiftDate,
+        shiftTime: this.state.shiftTime,
+        postedBy: this.state.postedBy,
+        helpSession: this.state.helpSession,
+        majorPreference: this.state.majorPreference,
+        yearPreference: this.state.yearPreference,
+        comments: this.state.comments,
+      })
+    }).then(res => res.json())
+      .then(response => this.submitSuccess())
+      .catch(error => alert('ERROR: The form was not submitted.'));
+  }
+
   render() {
     return (
       <div className="Post">
+        {this.renderRedirect()}
         <h2>Post a Shift</h2>
-	        <form>
-			{/* Date of Shift*/}
-			<DayPicker
-				selectedDays={this.state.selectedDay}
-				onDayClick={this.handleDayClick}
-			/>
-			<p>
-				<label for="shiftDate">Date of Shift: </label>
-				{this.state.selectedDay
-					? this.state.selectedDay.toLocaleDateString()
-					: 'Please select a day 👻'}
-			</p>
-            {/* Start Time of Shift */}
-			<label for="shiftTime">Time of Shift:</label>
-			<select>
-				<option value="first">10:25 - 11:25 AM</option>
-				<option value="second">11:25 - 12:25 PM</option>
-				<option value="third">12:25 - 1:25 PM</option>
-				<option value="fourth">1:25 - 2:25 PM</option>
-				<option value="fifth">2:25 - 3:25 PM</option>
-				<option value="sixth">3:25 - 4:25 PM</option>
-				<option value="seventh">4:25 - 5:25 PM</option>
-				<option value="eighth">5:30 - 7:30 PM</option>
-				<option value="ninth">7:00 - 9:00 PM</option>				
-				<option value="tenth">7:30 - 9:30 PM</option>
-				<option value="eleventh">7:00 - 10:00 PM</option>
-			</select>
-			<br />
-			{/* Help Session? */}
-			<label for="helpSession">Is this a Help Session?:</label>
-			<select>
-				<option selected value="No"> No</option>
-				<option value="ECE 100">ECE 100</option>				
-				<option value="ECE 222">ECE 222</option>
-				<option value="ECE 264">ECE 264</option>
-				<option value="ECE 252">ECE 252</option>
-				<option value="ME 104">ME 104</option>
-				<option value="ME 125">ME 125 - MATLAB</option>	
-				<option value="Mechanics">Mechanics of Materials</option>
-				<option value="GE 109">GE 109</option>					
-			</select>
-			<br />   
-			{/* Major Preference? */}
-			<label for="majorPreference">Is there a major preference?:</label>
-			<select>
-				<option selected value="No"> No</option>
-				<option value="Mechanical">Mechanical</option>
-				<option value="Civil">Civil</option>
-				<option value="Electrical">Electrical</option>
-				<option value="Computer">Computer</option>
-			</select>
-			<br />  
-			{/* Class Preference? */}
-			<label for="classPreference">Is there a year preference?:</label>
-			<select>
-				<option selected value="No"> No</option>
-				<option value="Freshman">Freshman</option>
-				<option value="Sophomore">Sophomore</option>
-				<option value="Junior">Junior</option>
-				<option value="Senior">Senior</option>
-			</select>
-			<br />  
-			
-			{/* Details for shift */}
-            <label for="details">Details:</label>
-            <input type="text" id="details"/>
-	          <input type="submit" />
-	        </form>
+	<form onSubmit={this.onSubmit}>
+
+          {/* Date of Shift */}
+          <DayPicker
+	    onDayClick={this.handleDayClick}
+          />
+          <p>
+            <label>Date of Shift: </label>
+            {this.state.shiftDate
+	      ? this.state.shiftDate.toLocaleDateString()
+	      : 'Please select a day 👻'}
+	  </p>
+
+          {/* Time of Shift */}
+          <label htmlFor="shiftTime">Time of Shift:</label>
+          <select id="shiftTime" name="shiftTime" onChange={this.onChange}>
+            <option value="Select time">Select time</option>
+	    <option value="10:25 - 11:25 AM">10:25 - 11:25 AM</option>
+	    <option value="11:25 - 12:25 PM">11:25 - 12:25 PM</option>
+	    <option value="12:25 - 1:25 PM">12:25 - 1:25 PM</option>
+            <option value="1:25 - 2:25 PM">1:25 - 2:25 PM</option>
+	    <option value="2:25 - 3:25 PM">2:25 - 3:25 PM</option>
+            <option value="3:25 - 4:25 PM">3:25 - 4:25 PM</option>
+            <option value="4:25 - 5:25 PM">4:25 - 5:25 PM</option>
+            <option value="5:30 - 7:30 PM">5:30 - 7:30 PM</option>
+	    <option value="7:00 - 9:00 PM">7:00 - 9:00 PM</option>				
+            <option value="7:30 - 9:30 PM">7:30 - 9:30 PM</option>
+	    <option value="7:00 - 10:00 PM">7:00 - 10:00 PM</option>
+	  </select>
+	  <br />
+
+	  {/* Posted By (eventually we want to fill this in automatically based on who is logged in) */}
+	  <label htmlFor="postedBy">Posted By:</label>
+	  <input type="text" id="postedBy" name="postedBy" onChange={this.onChange} /> 
+
+	  {/* Help Session? */}
+          <label htmlFor="helpSession">Is this a Help Session?:</label>
+	  <select id="helpSession" name="helpSession" onChange={this.onChange}>
+            <option value="No">No</option>
+            <option value="ECE 100">ECE 100</option>				
+            <option value="ECE 222">ECE 222</option>
+            <option value="ECE 264">ECE 264</option>
+            <option value="ECE 252">ECE 252</option>
+            <option value="ME 104">ME 104</option>
+	    <option value="ME 125">ME 125 - MATLAB</option>	
+	    <option value="Mechanics">Mechanics of Materials</option>
+            <option value="GE 109">GE 109</option>					
+	  </select>
+          <br />
+   
+	  {/* Major Preference? */}
+          <label htmlFor="majorPreference">Is there a major preference?:</label>
+          <select id="majorPreference" name="majorPreference" onChange={this.onChange}>
+            <option value="None">None</option>
+            <option value="Mechanical">Mechanical</option>
+            <option value="Civil">Civil</option>
+            <option value="Electrical">Electrical</option>
+	    <option value="Computer">Computer</option>
+	  </select>
+          <br />
+  
+          {/* Year Preference? */}
+          <label htmlFor="yearPreference">Is there a year preference?:</label>
+          <select id="yearPreference" name="yearPreference" onChange={this.onChange}>
+	    <option value="None">None</option>
+            <option value="Freshman">Freshman</option>
+            <option value="Sophomore">Sophomore</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+	  </select>
+	  <br />  
+
+          {/* Additional comments */}
+          <label htmlFor="comments">Comments:</label>
+          <input type="text" id="comments" name="comments" onChange={this.onChange} />
+	
+	  {/* Submit form */}
+	  <input type="submit" />
+	</form>
       </div>
     );
   }
