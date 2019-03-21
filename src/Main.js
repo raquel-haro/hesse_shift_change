@@ -1,6 +1,6 @@
 // Imports
 import React, { Component } from "react";
-import { Route, NavLink, HashRouter } from "react-router-dom"; // Needed for Route
+import { Route } from "react-router-dom"; // Needed for Route
 // Component Imports
 import PageHeader from "./PageHeader";
 import Navigation from "./Navigation";
@@ -16,22 +16,20 @@ import Shift from "./Shift";
 class Main extends Component {
   render() {
     return (
-	<HashRouter>
-          <div className="Main">
-            {/* Contains the items for page header */}
-            <PageHeader />
-            {/* Contains the Navigation Bar for page links */}
-            <Navigation />
+      <div className="Main">
+        {/* Contains the items for page header */}
+        <PageHeader />
+        {/* Contains the Navigation Bar for page links */}
+        <Navigation />
 
-            {/* Contains the Body of the Website, actual page content */}
-            <div className="content">
-              <Route exact path="/" component={Home}/>
-              <Route path="/listings" component={Listings}/>
-              <Route path="/post" component={Post}/>
-	      <Route path="/shift/:id" component={Shift}/>
-            </div>
-          </div>
-	</HashRouter>
+        {/* Contains the Body of the Website, actual page content */}
+        <div className="content">
+          <Route exact path='/' component={Home} />
+          <Route exact path="/listings" component={Listings} />
+          <Route exact path="/post" component={Post} />
+	  <Route exact path="/shift/:id" component={Shift} />
+        </div>
+      </div>
     );
   }
 }
