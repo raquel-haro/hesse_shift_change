@@ -1,5 +1,6 @@
 // Imports
 import React, { Component } from "react";
+import { Redirect } from 'react-router';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
@@ -18,14 +19,15 @@ class Post extends Component {
       majorPreference: 'None',
       yearPreference: 'None',
       comments: '',
+      redirect: false
     };
   }
 
   /* When an input is changed, update the state. */
   onChange = (e) => {
-    {/* Because we named the inputs to match their
-        corresponding values in state, it's
-        super easy to update the state */}
+    /* Because we named the inputs to match their
+       corresponding values in state, it's
+       super easy to update the state */
     this.setState({ [e.target.name]: e.target.value });
   }
 
@@ -33,6 +35,19 @@ class Post extends Component {
     this.setState({
       shiftDate: selected ? undefined : day,
     });
+  }
+
+  submitSuccess = () => {
+    alert('Form submitted!');  
+    this.setState({
+      redirect: true
+    })
+  }
+  
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/' />
+    }
   }
 
   /* Submit the form */
@@ -53,12 +68,15 @@ class Post extends Component {
         yearPreference: this.state.yearPreference,
         comments: this.state.comments,
       })
-    });   
+    }).then(res => res.json())
+      .then(response => this.submitSuccess())
+      .catch(error => alert('ERROR: The form was not submitted.'));
   }
 
   render() {
     return (
       <div className="Post">
+        {this.renderRedirect()}
         <h2>Post a Shift</h2>
 	<form onSubmit={this.onSubmit}>
 
