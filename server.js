@@ -24,17 +24,20 @@ app.get('/api/', function (req, res) {
 });
  
 // Retrieve all shifts
+// Date is formatted like "Wednesday March 20 2019"
 app.get('/api/shifts', function (req, res) {
-  mc.query('SELECT * FROM shifts', function (error, results, fields) {
+  mc.query('SELECT id, createdAt, DATE_FORMAT(shiftDate, "%W %M %e %Y") AS shiftDate, shiftTime, postedBy, coveredBy, helpSession, majorPreference, yearPreference, comments FROM shifts', function (error, results, fields) {
     if (error) { throw error; }
     return res.json({ data: results });
   });
 });
 
 // Retrieve shift by id
+// Date is formatted like "Wednesday March 20 2019"
 app.get('/api/shift/:id', function (req, res) {
-  let shift_id = req.params.id;
-  mc.query('SELECT * FROM shifts where id=?', [shift_id], function (error, results, fields) {
+  var shiftId = req.params.id;
+
+  mc.query('SELECT id, createdAt, DATE_FORMAT(shiftDate, "%W %M %e %Y") AS shiftDate, shiftTime, postedBy, coveredBy, helpSession, majorPreference, yearPreference, comments FROM shifts WHERE id=?', [shiftId], function (error, results, fields) {
     if (error) throw error;
     return res.json({ data: results[0] });
   });
@@ -53,11 +56,28 @@ app.post('/api/shift', function (req, res, next) {
   if (!shiftDate || !shiftTime || !postedBy || !helpSession || !majorPreference || !yearPreference) {
     return res.status(400).json({ message: 'Missing information.' });
   }
-  mc.query("INSERT INTO shifts (shiftDate, shiftTime, postedBy, helpSession, majorPreference, yearPreference, comments) VALUES (?,?,?,?,?,?,?)", [shiftDate, shiftTime, postedBy, helpSession, majorPreference, yearPreference, comments], function (error, results, fields) {
+
+  mc.query('INSERT INTO shifts (shiftDate, shiftTime, postedBy, helpSession, majorPreference, yearPreference, comments) VALUES (?,?,?,?,?,?,?)', [shiftDate, shiftTime, postedBy, helpSession, majorPreference, yearPreference, comments], function (error, results, fields) {
     if (error) throw error;
     return res.json({ data: results, message: 'New shift has been created successfully.' });
   });
 });
+
+// Cover a shift
+// Updates the shift's "covered by" field
+app.put('/api/shift', function (req, res) {
+  var shiftId = req.body.id;
+  var coveredBy = req.body.coveredBy;
+  
+  if (!shiftId || !coveredBy) { 
+    return res.status(400).json({ message: 'Missing information.' });
+  }
+  
+  mc.query('UPDATE shifts SET coveredBy=? WHERE id=?', [coveredBy, shiftId], function (error, results, fields) {
+    if (error) throw error;
+    return res.json({ data: results, message: 'Shift has been updated successfully.' });
+  });
+}); 
 
 // Listen
 const port = process.env.PORT || 3001;

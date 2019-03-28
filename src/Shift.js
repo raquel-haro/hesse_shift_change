@@ -1,5 +1,6 @@
 // Imports
 import React, { Component } from "react";
+import { Redirect } from 'react-router';
  
 // Displays an individual shift
 class Shift extends Component {
@@ -12,6 +13,7 @@ class Shift extends Component {
     this.state = {
       id: this.props.match.params.id,
       shift: [],
+      redirect: false,
     }
   }
 
@@ -26,9 +28,40 @@ class Shift extends Component {
     })
   }
 
+  submitSuccess = () => {
+    alert('Submitted!');
+    this.setState({
+      redirect: true
+    })
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/' />
+    }
+  }
+
+  /* Claim a shift */
+  coverShift = (e) => {
+    fetch('/api/shift', {
+      method: 'put',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: this.state.id,
+        coveredBy: "Covered!"
+      })
+    }).then(res => res.json())
+      .then(response => this.submitSuccess())
+      .catch(error => alert('ERROR'));
+  }
+
   render() {
     return (
       <div>
+        {this.renderRedirect()}
         <table>
           <tbody>
             <tr>
@@ -66,7 +99,7 @@ class Shift extends Component {
           </tbody>
         </table>
         <div>
-          <button type="button">Cover this shift</button>
+          <button type="button" onClick={this.coverShift}>Cover this shift</button>
         </div>
       </div>
     );

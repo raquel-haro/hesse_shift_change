@@ -48,7 +48,7 @@ class ShiftTable extends Component {
 			 <td>{shift.shiftTime}</td>
 			 <td>{shift.postedBy}</td>
 			 <td>{shift.coveredBy}</td>
-			 <td><NavLink to={`/shift/${shift.id}`}>Claim</NavLink></td>
+			 <td><NavLink to={`/shift/${shift.id}`} className={`ShiftTable ${css(styles.button)}`}>Claim</NavLink></td>
 		       </tr>;
               })
             }
@@ -72,6 +72,14 @@ const styles = StyleSheet.create({
   },
   flexContainer: {
     display: 'flex',
+  },
+  button: {
+    color: 'black',
+    border: '2px solid black',
+    borderRadius: '5px',
+    padding: '10px',
+    textAlign: 'center',
+    textDecoration: 'none',
   }
 
 })
