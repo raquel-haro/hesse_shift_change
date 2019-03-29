@@ -15,14 +15,17 @@ class App extends Component {
         };
     }
 
+    // Logs user out of system, causes return to log in page
     logout = () => {
-        this.setState({isAuthenticated: false, token: '', user: null})
+        this.setState({isAuthenticated: false, user: null})
     };
 
+    // Returns an error if authentication fails
     onFailure = (error) => {
         alert(error);
     };
 
+    // Handle the Authentication Details
     // w3 = whole object file
     // U3 = "email@valpo.edu"
     // ig = "first last"
@@ -38,31 +41,23 @@ class App extends Component {
     };
 
     render() {
+        // Determine what the user will view based on authentication status
         let content = !!this.state.isAuthenticated ?
                 (
+                    // User has been logged in, display main web application
                     <Main 
                         email = {this.state.user.U3}
                         name = {this.state.user.ig}
                         logout = {this.logout}
                     />
-                    // <div>
-                    //     <p>Authenticated</p>
-                    //     <div>
-                    //         {this.state.user.U3}
-                    //     </div>
-                    //     <div>
-                            // <button onClick={this.logout} className="button">
-                            //     Log out
-                            // </button>
-                    //     </div>
-                    // </div>
                 ) :
                 (
+                    // No user registered or logged in. Show sign in page
                     <div>
                         <h1>Hesse Center Shift Manager</h1>
                         <GoogleLogin
                             clientId={config.GOOGLE_CLIENT_ID}
-                            buttonText="Login"
+                            buttonText="Login with Google"
                             onSuccess={this.googleResponse}
                             onFailure={this.onFailure}
                         />
