@@ -1,6 +1,6 @@
 // Imports
 import React, { Component } from "react";
-import { Route, NavLink, HashRouter } from "react-router-dom"; // Needed for NavLink
+import { NavLink } from "react-router-dom"; // Needed for NavLink
  
 // Contains the Links to navigate the application
 // NavLink will allow for rerouting of DOM
